@@ -1,291 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>Bin Card Out Quantity</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-    }
 
-    body {
-        margin: 0;
-        padding: 20px;
-        font-family: Arial, sans-serif;
-        background: #f2f2f2;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    .container {
-        max-width: 500px;
-        margin: auto;
-        background: white;
-        padding: 22px;
-        border-radius: 12px;
-        box-shadow: 0 3px 15px rgba(0,0,0,0.15);
-    }
+body {
 
-    h2 {
-        text-align: center;
-        margin-top: 0;
-        color: #222;
-    }
+    margin: 0;
+    padding: 20px;
 
-    .company {
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 20px;
-        font-size: 18px;
-    }
+    font-family: Arial, sans-serif;
 
-    .row {
-        margin-bottom: 15px;
-    }
+    background: #f2f2f2;
+}
 
-    label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+.container {
 
-    input {
-        width: 100%;
-        padding: 12px;
-        font-size: 17px;
-        border: 1px solid #aaa;
-        border-radius: 6px;
-    }
+    max-width: 500px;
 
-    input[readonly] {
-        background: #eeeeee;
-    }
+    margin: auto;
 
-    .qty {
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
-    }
+    background: white;
 
-    button {
-        width: 100%;
-        padding: 14px;
-        font-size: 18px;
-        font-weight: bold;
-        border: none;
-        border-radius: 7px;
-        cursor: pointer;
-        background: #198754;
-        color: white;
-    }
+    padding: 22px;
 
-    button:disabled {
-        background: #999;
-    }
+    border-radius: 12px;
 
-    .message {
-        margin-top: 15px;
-        padding: 12px;
-        border-radius: 6px;
-        text-align: center;
-        font-weight: bold;
-        display: none;
-    }
+    box-shadow:
+        0 3px 15px rgba(0,0,0,0.15);
+}
 
-    .success {
-        background: #d1e7dd;
-        color: #0f5132;
-    }
+h2 {
 
-    .error {
-        background: #f8d7da;
-        color: #842029;
-    }
+    text-align: center;
+
+    margin-top: 0;
+
+    color: #222;
+}
+
+.company {
+
+    text-align: center;
+
+    font-weight: bold;
+
+    margin-bottom: 20px;
+
+    font-size: 18px;
+}
+
+.row {
+
+    margin-bottom: 15px;
+}
+
+label {
+
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 5px;
+}
+
+input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    font-size: 17px;
+
+    border: 1px solid #aaa;
+
+    border-radius: 6px;
+}
+
+input[readonly] {
+
+    background: #eeeeee;
+}
+
+.qty {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    text-align: center;
+}
+
+button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    border: none;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    background: #198754;
+
+    color: white;
+}
+
+button:disabled {
+
+    background: #999;
+}
+
+.message {
+
+    margin-top: 15px;
+
+    padding: 12px;
+
+    border-radius: 6px;
+
+    text-align: center;
+
+    font-weight: bold;
+
+    display: none;
+}
+
+.success {
+
+    background: #d1e7dd;
+
+    color: #0f5132;
+}
+
+.error {
+
+    background: #f8d7da;
+
+    color: #842029;
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <div class="company">METAL MECH ENGINEERING</div>
 
-    <h2>BIN CARD OUT QUANTITY</h2>
+<div class="company">
 
-    <div class="row">
-        <label>Travel Card No</label>
-        <input type="text" id="travelCard" readonly>
-    </div>
-
-    <div class="row">
-        <label>Bin Card No</label>
-        <input type="text" id="binCard" readonly>
-    </div>
-
-    <div class="row">
-        <label>Item Name</label>
-        <input type="text" id="itemName" readonly>
-    </div>
-
-    <div class="row">
-        <label>Bin Card Quantity</label>
-        <input type="text" id="binQty" readonly>
-    </div>
-
-    <div class="row">
-        <label>Out Quantity</label>
-        <input
-            type="number"
-            id="outQty"
-            class="qty"
-            min="1"
-            step="1"
-            placeholder="Enter Out Qty"
-        >
-    </div>
-
-    <div class="row">
-        <label>Date</label>
-        <input type="date" id="entryDate">
-    </div>
-
-    <button id="submitBtn" onclick="submitEntry()">
-        SUBMIT OUT QUANTITY
-    </button>
-
-    <div id="message" class="message"></div>
+METAL MECH ENGINEERING
 
 </div>
 
 
+<h2>
+
+BIN CARD OUT QUANTITY
+
+</h2>
+
+
+<div class="row">
+
+<label>
+
+Travel Card No
+
+</label>
+
+<input
+    type="text"
+    id="travelCard"
+    readonly
+>
+
+</div>
+
+
+<div class="row">
+
+<label>
+
+Bin Card No
+
+</label>
+
+<input
+    type="text"
+    id="binCard"
+    readonly
+>
+
+</div>
+
+
+<div class="row">
+
+<label>
+
+Item Name
+
+</label>
+
+<input
+    type="text"
+    id="itemName"
+    readonly
+>
+
+</div>
+
+
+<div class="row">
+
+<label>
+
+Bin Card Quantity
+
+</label>
+
+<input
+    type="text"
+    id="binQty"
+    readonly
+>
+
+</div>
+
+
+<div class="row">
+
+<label>
+
+Out Quantity
+
+</label>
+
+<input
+    type="number"
+    id="outQty"
+    class="qty"
+    min="1"
+    step="1"
+    placeholder="Enter Out Qty"
+>
+
+</div>
+
+
+<div class="row">
+
+<label>
+
+Date
+
+</label>
+
+<input
+    type="date"
+    id="entryDate"
+>
+
+</div>
+
+
+<button
+    id="submitBtn"
+    onclick="submitEntry()"
+>
+
+SUBMIT OUT QUANTITY
+
+</button>
+
+
+<div
+    id="message"
+    class="message"
+></div>
+
+
+</div>
+
+
+
 <script>
 
-    // -----------------------------------------
-    // READ DATA FROM QR CODE URL
-    // -----------------------------------------
 
-    const params = new URLSearchParams(window.location.search);
+// =====================================================
+// GOOGLE APPS SCRIPT WEB APP URL
+// =====================================================
 
-    const travelCard = params.get("travel") || "";
-    const binCard    = params.get("bin") || "";
-    const itemName   = params.get("item") || "";
-    const binQty     = params.get("qty") || "";
-
-    document.getElementById("travelCard").value = travelCard;
-    document.getElementById("binCard").value = binCard;
-    document.getElementById("itemName").value = itemName;
-    document.getElementById("binQty").value = binQty;
+const SERVER_URL =
+"https://script.google.com/macros/s/AKfycbzEKjwhVqRcmSaBkqkw_FGwQPkr9AluODOWrVutSO9CQvEcyWWDVfvJ_xvCrG2IClwX/exec";
 
 
-    // -----------------------------------------
-    // TODAY'S DATE AUTOMATICALLY
-    // USER DOES NOT HAVE TO TYPE DATE
-    // -----------------------------------------
 
-    const today = new Date();
+// =====================================================
+// READ QR CODE DATA
+// =====================================================
 
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, "0");
-    const dd = String(today.getDate()).padStart(2, "0");
-
-    document.getElementById("entryDate").value =
-        yyyy + "-" + mm + "-" + dd;
+const params =
+new URLSearchParams(window.location.search);
 
 
-    // -----------------------------------------
-    // SUBMIT
-    // -----------------------------------------
+const travelCard =
+params.get("travel") || "";
 
-    function submitEntry() {
 
-        const outQty = document.getElementById("outQty").value;
+const binCard =
+params.get("bin") || "";
 
-        if (!travelCard || !binCard) {
-            showMessage(
-                "Invalid QR Code. Travel Card / Bin Card missing.",
-                false
-            );
-            return;
-        }
 
-        if (!outQty || Number(outQty) <= 0) {
-            showMessage(
-                "Please enter valid Out Quantity.",
-                false
-            );
-            return;
-        }
+const itemName =
+params.get("item") || "";
 
-        const quantity = Number(outQty);
-        const totalQty = Number(binQty);
 
-        if (totalQty > 0 && quantity > totalQty) {
-            showMessage(
-                "Out Quantity cannot be greater than Bin Card Quantity.",
-                false
-            );
-            return;
-        }
+const binQty =
+params.get("qty") || "";
 
-        const entryDate =
-            document.getElementById("entryDate").value;
 
-        const data = {
-            travelCard: travelCard,
-            binCard: binCard,
-            itemName: itemName,
-            binQty: totalQty,
-            outQty: quantity,
-            entryDate: entryDate
-        };
 
-        console.log("OUT QTY ENTRY:", data);
+document.getElementById("travelCard").value =
+travelCard;
 
-        /*
-        ==================================================
-        NEXT STEP:
-        THIS DATA WILL BE SENT TO YOUR SERVER.
 
-        Server will update:
+document.getElementById("binCard").value =
+binCard;
 
-        Bin Card Log Sheet
 
-        Example:
+document.getElementById("itemName").value =
+itemName;
 
-        STR-BSS306
-        Out Qty 1 = 50
-        Out Qty 2 = 50
-        Out Qty 3 = 100
-        Out Qty 4 = 50
-        ...
 
-        ==================================================
-        */
+document.getElementById("binQty").value =
+binQty;
+
+
+
+// =====================================================
+// TODAY DATE
+// =====================================================
+
+const today = new Date();
+
+const yyyy =
+today.getFullYear();
+
+const mm =
+String(today.getMonth() + 1)
+.padStart(2, "0");
+
+const dd =
+String(today.getDate())
+.padStart(2, "0");
+
+
+document.getElementById("entryDate").value =
+yyyy + "-" + mm + "-" + dd;
+
+
+
+// =====================================================
+// SUBMIT ENTRY
+// =====================================================
+
+function submitEntry() {
+
+
+    const outQty =
+    document.getElementById("outQty").value;
+
+
+    const entryDate =
+    document.getElementById("entryDate").value;
+
+
+    if (!travelCard || !binCard) {
 
         showMessage(
-            "Entry received. Server connection will be added next.",
+            "Invalid QR Code. Travel Card / Bin Card missing.",
+            false
+        );
+
+        return;
+    }
+
+
+    if (!outQty || Number(outQty) <= 0) {
+
+        showMessage(
+            "Please enter valid Out Quantity.",
+            false
+        );
+
+        return;
+    }
+
+
+    const quantity =
+    Number(outQty);
+
+
+    const totalQty =
+    Number(binQty);
+
+
+    if (totalQty > 0 && quantity > totalQty) {
+
+        showMessage(
+            "Out Quantity cannot be greater than Bin Card Quantity.",
+            false
+        );
+
+        return;
+    }
+
+
+
+    const data = {
+
+        travelCard: travelCard,
+
+        binCard: binCard,
+
+        itemName: itemName,
+
+        binQty: totalQty,
+
+        outQty: quantity,
+
+        entryDate: entryDate
+
+    };
+
+
+
+    // Disable button
+    const button =
+    document.getElementById("submitBtn");
+
+
+    button.disabled = true;
+
+
+    button.innerText =
+    "SAVING...";
+
+
+
+    // =================================================
+    // SEND DATA TO GOOGLE APPS SCRIPT
+    // =================================================
+
+    fetch(
+        SERVER_URL,
+        {
+
+            method: "POST",
+
+            mode: "no-cors",
+
+            headers: {
+
+                "Content-Type":
+                "text/plain;charset=utf-8"
+
+            },
+
+            body:
+            JSON.stringify(data)
+
+        }
+    )
+
+    .then(() => {
+
+        showMessage(
+            "✓ Out Quantity saved successfully.",
             true
         );
 
+
         document.getElementById("outQty").value = "";
-    }
 
 
-    function showMessage(text, success) {
+        button.disabled = false;
 
-        const msg = document.getElementById("message");
 
-        msg.innerText = text;
+        button.innerText =
+        "SUBMIT OUT QUANTITY";
 
-        msg.className =
-            "message " +
-            (success ? "success" : "error");
+    })
 
-        msg.style.display = "block";
-    }
+
+    .catch((error) => {
+
+        console.error(error);
+
+
+        showMessage(
+            "Server connection error. Please try again.",
+            false
+        );
+
+
+        button.disabled = false;
+
+
+        button.innerText =
+        "SUBMIT OUT QUANTITY";
+
+    });
+
+}
+
+
+
+// =====================================================
+// MESSAGE
+// =====================================================
+
+function showMessage(text, success) {
+
+
+    const msg =
+    document.getElementById("message");
+
+
+    msg.innerText =
+    text;
+
+
+    msg.className =
+    "message " +
+    (success ? "success" : "error");
+
+
+    msg.style.display =
+    "block";
+
+}
 
 </script>
 
+
 </body>
+
 </html>
