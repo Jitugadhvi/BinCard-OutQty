@@ -302,36 +302,161 @@ function showMessage(text, type) {
   box.style.display = "block";
 }
 
+const API_URL = "https://script.google.com/macros/s/AKfycbyhZ7f3oEu9l-LZy8ADR_FYWvcyuLkDKziLmk2dCS6N1-WDMIG6Bxc_lTcbCIZyKj1f2A/exec";
+
 function submitOutQty() {
-  const outQty = parseFloat(document.getElementById("outQty").value);
-  const outDate = document.getElementById("outDate").value;
+
+  const outQty =
+    parseFloat(
+      document.getElementById("outQty").value
+    );
+
+  const outDate =
+    document.getElementById("outDate").value;
+
+  const btn =
+    document.getElementById("submitBtn");
+
 
   if (!data.travel || !data.bin) {
-    showMessage("Invalid QR. Travel Card No or Bin Card No is missing.", "error");
+
+    showMessage(
+      "Invalid QR. Travel Card No or Bin Card No is missing.",
+      "error"
+    );
+
     return;
   }
+
 
   if (!outQty || outQty <= 0) {
-    showMessage("Please enter a valid Out Quantity.", "error");
+
+    showMessage(
+      "Please enter a valid Out Quantity.",
+      "error"
+    );
+
     return;
   }
+
 
   if (!outDate) {
-    showMessage("Please select the Out Date.", "error");
+
+    showMessage(
+      "Please select the Out Date.",
+      "error"
+    );
+
     return;
   }
 
-  /*
-    STEP 2:
-    Backend API connection will be added here.
-    This page is intentionally kept separate from the
-    existing Material Traceability QR.
-  */
 
-  showMessage(
-    "Entry verified. Backend connection will be activated in Step 2.",
-    "success"
-  );
+  btn.disabled = true;
+  btn.textContent = "SUBMITTING...";
+
+
+  const payload = {
+
+    syncMode: "OUT_QTY",
+
+    material: data.material,
+
+    travelCard: data.travel,
+
+    binCard: data.bin,
+
+    itemName: data.item,
+
+    binQty: data.qty,
+
+    workOrderNo: data.wo,
+
+    outQty: outQty,
+
+    outDate: outDate
+
+  };
+
+
+  fetch(API_URL, {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "text/plain;charset=utf-8"
+    },
+
+    body: JSON.stringify(payload)
+
+  })
+
+  .then(function(response) {
+
+    return response.json();
+
+  })
+
+  .then(function(result) {
+
+    if (!result.success) {
+
+      throw new Error(
+        result.message ||
+        "Unable to save Out Quantity."
+      );
+
+    }
+
+
+    showMessage(
+
+      "OUT QTY SAVED SUCCESSFULLY\n" +
+
+      "Bin Card: " +
+      result.binCard +
+
+      " | Out Qty: " +
+      result.outQty +
+
+      " | Total Out: " +
+      result.totalOutQty +
+
+      " | Balance: " +
+      result.balanceQty,
+
+      "success"
+
+    );
+
+
+    document.getElementById("outQty").value = "";
+
+
+    btn.disabled = false;
+    btn.textContent = "SUBMIT OUT QUANTITY";
+
+  })
+
+  .catch(function(error) {
+
+    console.error(error);
+
+
+    showMessage(
+
+      "ERROR: " +
+      error.message,
+
+      "error"
+
+    );
+
+
+    btn.disabled = false;
+    btn.textContent = "SUBMIT OUT QUANTITY";
+
+  });
+
 }
 </script>
 </body>
