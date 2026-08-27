@@ -245,6 +245,13 @@ button:disabled{opacity:.55;cursor:not-allowed}
           <input id="outQty" type="number" min="0.0001" step="any"
                  inputmode="decimal" placeholder="Enter quantity">
         </div>
+        <div class="field">
+  <label for="outWorkOrder">Work Order No <span class="required">*</span></label>
+  <input id="outWorkOrder"
+         type="text"
+         placeholder="Enter Work Order No"
+         autocomplete="off">
+</div>
 
         <div class="field">
           <label for="outDate">Out Date <span class="required">*</span></label>
@@ -312,10 +319,13 @@ function submitOutQty() {
     );
 
   const outDate =
-    document.getElementById("outDate").value;
+  document.getElementById("outDate").value;
 
-  const btn =
-    document.getElementById("submitBtn");
+const workOrderNo =
+  document.getElementById("outWorkOrder").value.trim();
+
+const btn =
+  document.getElementById("submitBtn");
 
 
   if (!data.travel || !data.bin) {
@@ -350,6 +360,16 @@ function submitOutQty() {
     return;
   }
 
+  if (!workOrderNo) {
+
+  showMessage(
+    "Please enter the Work Order No.",
+    "error"
+  );
+
+  return;
+}
+
 
   btn.disabled = true;
   btn.textContent = "SUBMITTING...";
@@ -369,7 +389,7 @@ function submitOutQty() {
 
     binQty: data.qty,
 
-    workOrderNo: data.wo,
+    workOrderNo: workOrderNo,
 
     outQty: outQty,
 
