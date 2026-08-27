@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>Metal Mech Engineering | Bin Card Out Qty</title>
+<style>
+:root{
+  --primary:#111827;
+  --secondary:#374151;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --bg:#f5f7fa;
+  --card:#ffffff;
+  --soft:#f9fafb;
+  --success:#166534;
+  --success-bg:#f0fdf4;
+  --danger:#b91c1c;
+  --danger-bg:#fef2f2;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:var(--bg);
+  color:#111827;
+}
+.page{
+  width:100%;
+  max-width:560px;
+  margin:0 auto;
+  padding:18px 14px 28px;
+}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 28px rgba(17,24,39,.08);
+}
+.top{
+  background:var(--primary);
+  color:white;
+  padding:24px 22px 21px;
+}
+.brand{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+.subtitle{
+  margin-top:5px;
+  font-size:13px;
+  color:#d1d5db;
+}
+.material{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:16px;
+  padding:7px 11px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:.5px;
+}
+.dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#fff;
+}
+.content{padding:21px}
+.section-title{
+  font-size:13px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  color:#374151;
+  margin-bottom:12px;
+}
+.info-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.info{
+  background:var(--soft);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px;
+  min-height:67px;
+}
+.info.full{grid-column:1/-1}
+.label{
+  font-size:10px;
+  font-weight:700;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.55px;
+  margin-bottom:6px;
+}
+.value{
+  font-size:14px;
+  font-weight:700;
+  line-height:1.3;
+  word-break:break-word;
+}
+.divider{
+  height:1px;
+  background:var(--border);
+  margin:21px 0;
+}
+.form{
+  background:#fbfcfd;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:15px;
+}
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field label{
+  display:block;
+  margin-bottom:7px;
+  font-size:12px;
+  font-weight:800;
+  color:#374151;
+}
+.required{color:#b91c1c}
+input{
+  width:100%;
+  height:47px;
+  padding:0 13px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  background:#fff;
+  color:#111827;
+  font-size:15px;
+  outline:none;
+  transition:border .15s,box-shadow .15s;
+}
+input:focus{
+  border-color:#6b7280;
+  box-shadow:0 0 0 3px rgba(17,24,39,.08);
+}
+input[readonly]{
+  background:#f3f4f6;
+  color:#4b5563;
+}
+button{
+  width:100%;
+  height:49px;
+  margin-top:16px;
+  border:0;
+  border-radius:10px;
+  background:var(--primary);
+  color:white;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.35px;
+  cursor:pointer;
+}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.55;cursor:not-allowed}
+.message{
+  display:none;
+  margin-top:13px;
+  padding:11px 12px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.4;
+}
+.message.success{display:block;background:var(--success-bg);color:var(--success);border:1px solid #bbf7d0}
+.message.error{display:block;background:var(--danger-bg);color:var(--danger);border:1px solid #fecaca}
+.footer{
+  text-align:center;
+  margin-top:15px;
+  font-size:11px;
+  color:#9ca3af;
+}
+@media(max-width:390px){
+  .page{padding:10px 9px 20px}
+  .top{padding:20px 17px}
+  .content{padding:17px}
+  .info-grid{grid-template-columns:1fr}
+  .info.full{grid-column:auto}
+}
+</style>
+</head>
+
+<body>
+<div class="page">
+  <div class="card">
+
+    <div class="top">
+      <div class="brand">Metal Mech Engineering</div>
+      <div class="subtitle">Material Traceability • Bin Card Control</div>
+      <div class="material">
+        <span class="dot"></span>
+        <span id="material">LOADING</span>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="section-title">Bin Card Information</div>
+
+      <div class="info-grid">
+        <div class="info">
+          <div class="label">Travel Card No</div>
+          <div class="value" id="travelCard">—</div>
+        </div>
+
+        <div class="info">
+          <div class="label">Bin Card No</div>
+          <div class="value" id="binCard">—</div>
+        </div>
+
+        <div class="info full">
+          <div class="label">Item Name</div>
+          <div class="value" id="itemName">—</div>
+        </div>
+
+        <div class="info">
+          <div class="label">Bin Card Qty</div>
+          <div class="value" id="binQty">—</div>
+        </div>
+
+        <div class="info">
+          <div class="label">Work Order No</div>
+          <div class="value" id="workOrder">—</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">Outward Transaction</div>
+
+      <div class="form">
+        <div class="field">
+          <label for="outQty">Out Quantity <span class="required">*</span></label>
+          <input id="outQty" type="number" min="0.0001" step="any"
+                 inputmode="decimal" placeholder="Enter quantity">
+        </div>
+
+        <div class="field">
+          <label for="outDate">Out Date <span class="required">*</span></label>
+          <input id="outDate" type="date">
+        </div>
+
+        <button id="submitBtn" type="button" onclick="submitOutQty()">
+          SUBMIT OUT QUANTITY
+        </button>
+
+        <div id="message" class="message"></div>
+      </div>
+
+      <div class="footer">
+        Scan the correct Bin Card before submitting an outward quantity.
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const data = {
+  material: params.get("material") || "",
+  travel: params.get("travel") || "",
+  bin: params.get("bin") || "",
+  item: params.get("item") || "",
+  qty: params.get("qty") || "",
+  wo: params.get("wo") || ""
+};
+
+document.getElementById("material").textContent =
+  data.material ? data.material.toUpperCase() : "BIN CARD";
+
+document.getElementById("travelCard").textContent = data.travel || "—";
+document.getElementById("binCard").textContent = data.bin || "—";
+document.getElementById("itemName").textContent = data.item || "—";
+document.getElementById("binQty").textContent = data.qty || "—";
+document.getElementById("workOrder").textContent = data.wo || "—";
+
+const today = new Date();
+const localDate =
+  today.getFullYear() + "-" +
+  String(today.getMonth()+1).padStart(2,"0") + "-" +
+  String(today.getDate()).padStart(2,"0");
+
+document.getElementById("outDate").value = localDate;
+
+function showMessage(text, type) {
+  const box = document.getElementById("message");
+  box.textContent = text;
+  box.className = "message " + type;
+  box.style.display = "block";
+}
+
+function submitOutQty() {
+  const outQty = parseFloat(document.getElementById("outQty").value);
+  const outDate = document.getElementById("outDate").value;
+
+  if (!data.travel || !data.bin) {
+    showMessage("Invalid QR. Travel Card No or Bin Card No is missing.", "error");
+    return;
+  }
+
+  if (!outQty || outQty <= 0) {
+    showMessage("Please enter a valid Out Quantity.", "error");
+    return;
+  }
+
+  if (!outDate) {
+    showMessage("Please select the Out Date.", "error");
+    return;
+  }
+
+  /*
+    STEP 2:
+    Backend API connection will be added here.
+    This page is intentionally kept separate from the
+    existing Material Traceability QR.
+  */
+
+  showMessage(
+    "Entry verified. Backend connection will be activated in Step 2.",
+    "success"
+  );
+}
+</script>
+</body>
+</html>
