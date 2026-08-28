@@ -225,9 +225,14 @@ button:disabled{opacity:.55;cursor:not-allowed}
         </div>
 
         <div class="info">
-          <div class="label">Bin Card Qty</div>
-          <div class="value" id="binQty">—</div>
-        </div>
+  <div class="label">Bin Card Qty</div>
+  <div class="value" id="binQty">—</div>
+</div>
+
+<div class="info">
+  <div class="label">Bin Card Balance Qty</div>
+  <div class="value" id="balanceQty">LOADING...</div>
+</div>
 
         <div class="info">
           <div class="label">Work Order No</div>
@@ -293,6 +298,118 @@ document.getElementById("binCard").textContent = data.bin || "—";
 document.getElementById("itemName").textContent = data.item || "—";
 document.getElementById("binQty").textContent = data.qty || "—";
 document.getElementById("workOrder").textContent = data.wo || "—";
+
+  document.getElementById("balanceQty").textContent = "LOADING...";
+
+function loadBinCardBalance() {
+
+  if (!data.travel || !data.bin || !data.qty) {
+
+    document.getElementById("balanceQty").textContent = "—";
+
+    return;
+  }
+
+  const url =
+    API_URL +
+    "?mode=GET_OUT_QTY" +
+    "&_=" + new Date().getTime();
+
+  fetch(url, {
+    method: "GET",
+    cache: "no-store"
+  })
+
+  .then(function(response) {
+
+    if (!response.ok) {
+      throw new Error("Unable to load Out Qty data.");
+    }
+
+    return response.json();
+
+  })
+
+  .then(function(result) {
+
+    if (!result.success) {
+      throw new Error(
+        result.message ||
+        "Unable to load Bin Card Balance."
+      );
+    }
+
+    let rows = [];
+
+    if (Array.isArray(result.rows)) {
+      rows = result.rows;
+    }
+    else if (Array.isArray(result.data)) {
+      rows = result.data;
+    }
+
+    let totalOutQty = 0;
+
+    rows.forEach(function(row) {
+
+      const rowBin =
+        String(row.binCard || "").trim().toUpperCase();
+
+      const rowTravel =
+        String(row.travelCard || "").trim().toUpperCase();
+
+      const currentBin =
+        String(data.bin || "").trim().toUpperCase();
+
+      const currentTravel =
+        String(data.travel || "").trim().toUpperCase();
+
+      if (
+        rowBin === currentBin &&
+        rowTravel === currentTravel
+      ) {
+
+        const qty =
+          parseFloat(row.outQty);
+
+        if (!isNaN(qty) && qty > 0) {
+          totalOutQty += qty;
+        }
+      }
+
+    });
+
+    const binQty =
+      parseFloat(data.qty);
+
+    if (isNaN(binQty)) {
+
+      document.getElementById("balanceQty").textContent = "—";
+
+      return;
+    }
+
+    let balanceQty =
+      binQty - totalOutQty;
+
+    if (Math.abs(balanceQty) < 0.000001) {
+      balanceQty = 0;
+    }
+
+    document.getElementById("balanceQty").textContent =
+      balanceQty;
+
+  })
+
+  .catch(function(error) {
+
+    console.error(error);
+
+    document.getElementById("balanceQty").textContent =
+      "Unable to load";
+
+  });
+}
 
 const today = new Date();
 const localDate =
