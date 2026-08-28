@@ -427,6 +427,7 @@ function showMessage(text, type) {
 }
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyQo8EOaBdRXKSt0NXjFkL6CuBXwaVPpxjSEiL82D5GyX__9Jse8rKOY_6L-u-VlTAz6w/exec";
+loadBinCardBalance();
 
 function submitOutQty() {
 
@@ -567,6 +568,7 @@ const btn =
 
 
     document.getElementById("outQty").value = "";
+    document.getElementById("balanceQty").textContent = result.balanceQty;
 
 
     btn.disabled = false;
