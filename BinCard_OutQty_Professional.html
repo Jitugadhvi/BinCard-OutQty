@@ -301,18 +301,23 @@ document.getElementById("workOrder").textContent = data.wo || "—";
 
   document.getElementById("balanceQty").textContent = "LOADING...";
 
+const API_URL = "...";
+
 function loadBinCardBalance() {
 
-  if (!data.travel || !data.bin || !data.qty) {
+  const balanceBox =
+    document.getElementById("balanceQty");
 
-    document.getElementById("balanceQty").textContent = "—";
-
+  if (!data.travel || !data.bin) {
+    balanceBox.textContent = "—";
     return;
   }
 
   const url =
     API_URL +
-    "?mode=GET_OUT_QTY" +
+    "?mode=GET_BIN" +
+    "&travelCard=" + encodeURIComponent(data.travel) +
+    "&binCard=" + encodeURIComponent(data.bin) +
     "&_=" + new Date().getTime();
 
   fetch(url, {
@@ -323,7 +328,7 @@ function loadBinCardBalance() {
   .then(function(response) {
 
     if (!response.ok) {
-      throw new Error("Unable to load Out Qty data.");
+      throw new Error("Unable to load Bin Card data.");
     }
 
     return response.json();
@@ -339,65 +344,14 @@ function loadBinCardBalance() {
       );
     }
 
-    let rows = [];
+    const balance = Number(result.balanceQty);
 
-    if (Array.isArray(result.rows)) {
-      rows = result.rows;
-    }
-    else if (Array.isArray(result.data)) {
-      rows = result.data;
-    }
-
-    let totalOutQty = 0;
-
-    rows.forEach(function(row) {
-
-      const rowBin =
-        String(row.binCard || "").trim().toUpperCase();
-
-      const rowTravel =
-        String(row.travelCard || "").trim().toUpperCase();
-
-      const currentBin =
-        String(data.bin || "").trim().toUpperCase();
-
-      const currentTravel =
-        String(data.travel || "").trim().toUpperCase();
-
-      if (
-        rowBin === currentBin &&
-        rowTravel === currentTravel
-      ) {
-
-        const qty =
-          parseFloat(row.outQty);
-
-        if (!isNaN(qty) && qty > 0) {
-          totalOutQty += qty;
-        }
-      }
-
-    });
-
-    const binQty =
-      parseFloat(data.qty);
-
-    if (isNaN(binQty)) {
-
-      document.getElementById("balanceQty").textContent = "—";
-
+    if (isNaN(balance)) {
+      balanceBox.textContent = "—";
       return;
     }
 
-    let balanceQty =
-      binQty - totalOutQty;
-
-    if (Math.abs(balanceQty) < 0.000001) {
-      balanceQty = 0;
-    }
-
-    document.getElementById("balanceQty").textContent =
-      balanceQty;
+    balanceBox.textContent = balance;
 
   })
 
@@ -405,11 +359,15 @@ function loadBinCardBalance() {
 
     console.error(error);
 
-    document.getElementById("balanceQty").textContent =
-      "Unable to load";
+    balanceBox.textContent = "Unable to load";
 
   });
+
 }
+
+loadBinCardBalance();
+
+const today = new Date();
 
 const today = new Date();
 const localDate =
